@@ -3,7 +3,8 @@ use std::{env, fs, io::Write, path::PathBuf};
 use proc_macro::TokenStream;
 use proc_macro_crate::FoundCrate;
 use syn::{
-    parse::{Parse, ParseStream}, parse_macro_input, LitInt, LitStr, Token
+    parse::{Parse, ParseStream},
+    parse_macro_input, LitInt, LitStr, Token,
 };
 
 struct MacroInput {
@@ -56,8 +57,14 @@ pub fn include_zstd_inner(input: TokenStream) -> TokenStream {
     };
 
     format!(
-        r#"unsafe {{ {crate_name}::EmbeddedZstd::<{compressed_bytes_len}>::new_unchecked({:?}) }}"#,
-        compressed_bytes.as_slice()
+        r#"unsafe {{ {crate_name}::EmbeddedZstd::<{compressed_bytes_len}>::new_unchecked({}) }}"#,
+        String::from("[")
+            + &compressed_bytes
+                .into_iter()
+                .map(|b| b.to_string())
+                .collect::<Vec<_>>()
+                .join(",")
+            + "]",
     )
     .parse()
     .unwrap()
