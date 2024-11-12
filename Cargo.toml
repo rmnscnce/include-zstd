@@ -3,12 +3,12 @@ name = "include-zstd"
 description = "Include files — compressed with Zstd, into the binary at compile time."
 authors = ["Paskal Sitepu <rmnscnce@ya.ru>"]
 license = "MIT OR Apache-2.0"
-version = "0.0.0"
+version = "0.0.1"
 edition = "2021"
 
 [dependencies]
 ruzstd = { version = "0.7" }
-include-zstd-macro = { path = "macro" }
+include-zstd-macro = { path = "macro", version = "0.0.1" }
 
 [workspace]
 members = ["macro"]
